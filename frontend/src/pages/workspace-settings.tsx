@@ -233,6 +233,26 @@ export default function WorkspaceSettingsPage() {
     },
   })
 
+  const isBusinessEnabled = currentUser?.preferences?.enable_business ?? false
+
+  const toggleBusinessFeatures = async () => {
+    try {
+      const prefs = {
+        ...(currentUser?.preferences || {}),
+        enable_business: !isBusinessEnabled,
+      }
+      const updated = await authApi.updateMe({ preferences: prefs })
+      updateUser(updated)
+      toast.success(
+        isBusinessEnabled
+          ? t('settings.businessDisabled', 'Business features disabled')
+          : t('settings.businessEnabled', 'Business features enabled')
+      )
+    } catch {
+      toast.error(t('common.error', 'An error occurred'))
+    }
+  }
+
   if (!current) {
     return (
       <div className="container max-w-5xl py-8 space-y-4">
@@ -502,6 +522,31 @@ export default function WorkspaceSettingsPage() {
             })}
           </ul>
         )}
+      </section>
+
+      {/* Advanced Settings */}
+      <section className="space-y-4 rounded-xl border bg-card p-6">
+        <h2 className="text-base font-semibold">{t('settings.advancedSettings', 'Advanced Settings')}</h2>
+        <div className="flex items-center justify-between gap-4">
+          <div className="max-w-xl">
+            <p className="text-sm font-medium">
+              {t('settings.enableBusinessFeatures', 'Enable Business Features (Sales & Stock)')}
+            </p>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              {t('settings.businessFeaturesDescription', 'Display the Business menu to record sales, purchase transactions, and manage merchandise stock.')}
+            </p>
+          </div>
+          <Button
+            variant={isBusinessEnabled ? 'destructive' : 'default'}
+            size="sm"
+            onClick={toggleBusinessFeatures}
+            className="rounded-lg shrink-0"
+          >
+            {isBusinessEnabled
+              ? t('settings.disable', 'Disable')
+              : t('settings.enable', 'Enable')}
+          </Button>
+        </div>
       </section>
 
       {/* Danger zone — owners only */}

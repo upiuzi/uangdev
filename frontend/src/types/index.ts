@@ -60,6 +60,7 @@ export interface UserPreferences {
   currency_display?: string
   display_name?: string
   onboarding_completed?: boolean
+  enable_business?: boolean
 }
 
 export interface Category {
@@ -705,3 +706,73 @@ export interface ReportResponse {
   composition: ReportCompositionItem[]
   category_trend: CategoryTrendItem[]
 }
+
+export interface InventoryItem {
+  id: string
+  user_id: string
+  workspace_id: string
+  name: string
+  sku: string | null
+  description: string | null
+  price: number
+  cost: number
+  stock: number
+  type: 'physical' | 'service'
+  created_at: string
+  updated_at: string
+}
+
+export interface InventoryTransaction {
+  id: string
+  user_id: string
+  workspace_id: string
+  item_id: string
+  type: 'sale' | 'purchase' | 'adjustment'
+  quantity: number
+  unit_price: number
+  date: string
+  description: string | null
+  transaction_id: string | null
+  customer_id?: string | null
+  supplier_id?: string | null
+  paid_amount: number
+  payment_status: 'unpaid' | 'partial' | 'paid'
+  created_at: string
+}
+
+export interface InventoryPayment {
+  id: string
+  user_id: string
+  workspace_id: string
+  inventory_transaction_id: string
+  amount: number
+  date: string
+  account_id: string | null
+  transaction_id: string | null
+  description: string | null
+  created_at: string
+}
+
+export interface Customer {
+  id: string
+  user_id: string
+  workspace_id: string
+  name: string
+  phone: string | null
+  email: string | null
+  address: string | null
+  created_at: string
+}
+
+export interface Supplier {
+  id: string
+  user_id: string
+  workspace_id: string
+  name: string
+  phone: string | null
+  email: string | null
+  address: string | null
+  created_at: string
+}
+
+

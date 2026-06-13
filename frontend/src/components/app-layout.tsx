@@ -50,6 +50,9 @@ import {
   Users,
   Split,
   BarChart3,
+  Package,
+  ShoppingBag,
+  ShoppingCart,
   Sun,
   Moon,
   Languages,
@@ -85,6 +88,11 @@ const navItems: NavItem[] = [
   { type: 'separator', labelKey: 'nav.groupAnalysis' },
   { type: 'link', key: 'reports', path: '/reports', icon: BarChart3 },
   { type: 'link', key: 'assets', path: '/assets', icon: Landmark },
+  { type: 'separator', labelKey: 'nav.groupBusiness' },
+  { type: 'link', key: 'businessItems', path: '/business/items', icon: Package },
+  { type: 'link', key: 'businessSales', path: '/business/sales', icon: ShoppingBag },
+  { type: 'link', key: 'businessPurchases', path: '/business/purchases', icon: ShoppingCart },
+  { type: 'link', key: 'businessContacts', path: '/business/contacts', icon: Users },
   { type: 'separator', labelKey: 'nav.groupSetup' },
   { type: 'link', key: 'budgets', path: '/budgets', icon: PiggyBank },
   { type: 'link', key: 'goals', path: '/goals', icon: Target },
@@ -146,7 +154,24 @@ export function AppLayout() {
   // a configuration surface (KB upload, providers, default selection),
   // not a daily destination. Moved to the user menu (Change password,
   // 2FA, Backups, AI agents).
-  const finalNavItems: NavItem[] = navItems
+  const isBusinessEnabled = user?.preferences?.enable_business ?? false
+  const finalNavItems = navItems.filter((item) => {
+    if (
+      item.type === 'separator' && item.labelKey === 'nav.groupBusiness'
+    ) {
+      return isBusinessEnabled
+    }
+    if (
+      item.type === 'link' &&
+      (item.key === 'businessItems' ||
+        item.key === 'businessSales' ||
+        item.key === 'businessPurchases' ||
+        item.key === 'businessContacts')
+    ) {
+      return isBusinessEnabled
+    }
+    return true
+  })
   const isMac =
     typeof navigator !== 'undefined' &&
     /Mac|iPhone|iPad|iPod/.test(navigator.platform)

@@ -442,6 +442,51 @@ RULE_PACKS = {
             ], "actions": [{"op": "set_category", "value": "housing"}], "priority": 10},
         ],
     },
+    "ID": {
+        "name": "Indonesia",
+        "flag": "\U0001F1EE\U0001F1E9",
+        "rules": [
+            {"name": "Gojek / GoPay", "conditions_op": "or", "conditions": [
+                {"field": "description", "op": "starts_with", "value": "GOJEK"},
+                {"field": "description", "op": "starts_with", "value": "GO-JEK"},
+                {"field": "description", "op": "starts_with", "value": "GOPAY"},
+                {"field": "description", "op": "starts_with", "value": "GO-PAY"},
+            ], "actions": [{"op": "set_category", "value": "transport"}], "priority": 10},
+
+            {"name": "Grab", "conditions_op": "or", "conditions": [
+                {"field": "description", "op": "starts_with", "value": "GRAB"},
+            ], "actions": [{"op": "set_category", "value": "transport"}], "priority": 10},
+
+            {"name": "Tokopedia", "conditions_op": "or", "conditions": [
+                {"field": "description", "op": "starts_with", "value": "TOKOPEDIA"},
+            ], "actions": [{"op": "set_category", "value": "shopping"}], "priority": 10},
+
+            {"name": "Shopee", "conditions_op": "or", "conditions": [
+                {"field": "description", "op": "starts_with", "value": "SHOPEE"},
+            ], "actions": [{"op": "set_category", "value": "shopping"}], "priority": 10},
+
+            {"name": "Indomaret / Alfamart", "conditions_op": "or", "conditions": [
+                {"field": "description", "op": "starts_with", "value": "INDOMARET"},
+                {"field": "description", "op": "starts_with", "value": "ALFAMART"},
+                {"field": "description", "op": "starts_with", "value": "ALFAMIDI"},
+            ], "actions": [{"op": "set_category", "value": "groceries"}], "priority": 10},
+
+            {"name": "QRIS / Transfer Bank", "conditions_op": "or", "conditions": [
+                {"field": "description", "op": "contains", "value": "TRANSFER"},
+                {"field": "description", "op": "contains", "value": "BCA"},
+                {"field": "description", "op": "contains", "value": "MANDIRI"},
+                {"field": "description", "op": "contains", "value": "BRI"},
+                {"field": "description", "op": "contains", "value": "BNI"},
+                {"field": "description", "op": "contains", "value": "QRIS"},
+            ], "actions": [{"op": "set_category", "value": "transfers"}], "priority": 10},
+
+            {"name": "Gaji / Salary", "conditions_op": "or", "conditions": [
+                {"field": "description", "op": "contains", "value": "GAJI"},
+                {"field": "description", "op": "contains", "value": "SALARY"},
+                {"field": "description", "op": "contains", "value": "PAYROLL"},
+            ], "actions": [{"op": "set_category", "value": "salary"}], "priority": 10},
+        ],
+    },
 }
 
 # Map currency code -> default rule pack country
@@ -450,6 +495,7 @@ CURRENCY_TO_PACK = {
     "USD": "US",
     "EUR": "EU",
     "GBP": "GB",
+    "IDR": "ID",
 }
 
 

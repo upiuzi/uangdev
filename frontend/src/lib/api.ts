@@ -47,6 +47,11 @@ import type {
   GroupSettlement,
   GroupBalances,
   TransactionSplitsInput,
+  InventoryItem,
+  InventoryTransaction,
+  InventoryPayment,
+  Customer,
+  Supplier,
 } from '@/types'
 
 const api = axios.create({
@@ -1410,6 +1415,71 @@ export const agents = {
       const { data } = await api.post(`/agents/connections/${id}/test`)
       return data
     },
+  },
+}
+
+// Inventory
+export const inventory = {
+  listItems: async (): Promise<InventoryItem[]> => {
+    const { data } = await api.get('/inventory/items')
+    return data
+  },
+  createItem: async (payload: { name: string; sku?: string; description?: string; price: number; cost: number; type: 'physical' | 'service' }): Promise<InventoryItem> => {
+    const { data } = await api.post('/inventory/items', payload)
+    return data
+  },
+  updateItem: async (id: string, payload: Partial<{ name: string; sku: string | null; description: string | null; price: number; cost: number; type: 'physical' | 'service' }>): Promise<InventoryItem> => {
+    const { data } = await api.patch(`/inventory/items/${id}`, payload)
+    return data
+  },
+  deleteItem: async (id: string): Promise<void> => {
+    await api.delete(`/inventory/items/${id}`)
+  },
+  listTransactions: async (): Promise<InventoryTransaction[]> => {
+    const { data } = await api.get('/inventory/transactions')
+    return data
+  },
+  createTransaction: async (itemId: string, payload: { type: 'sale' | 'purchase' | 'adjustment'; quantity: number; unit_price: number; date: string; description?: string; account_id?: string; paid_amount?: number; customer_id?: string; supplier_id?: string }): Promise<InventoryTransaction> => {
+    const { data } = await api.post(`/inventory/items/${itemId}/transactions`, payload)
+    return data
+  },
+  listPayments: async (transactionId: string): Promise<InventoryPayment[]> => {
+    const { data } = await api.get(`/inventory/transactions/${transactionId}/payments`)
+    return data
+  },
+  createPayment: async (transactionId: string, payload: { amount: number; date: string; account_id: string; description?: string }): Promise<InventoryPayment> => {
+    const { data } = await api.post(`/inventory/transactions/${transactionId}/payments`, payload)
+    return data
+  },
+  getCustomers: async (): Promise<Customer[]> => {
+    const { data } = await api.get('/inventory/customers')
+    return data
+  },
+  createCustomer: async (payload: { name: string; phone?: string; email?: string; address?: string }): Promise<Customer> => {
+    const { data } = await api.post('/inventory/customers', payload)
+    return data
+  },
+  updateCustomer: async (id: string, payload: Partial<{ name: string; phone: string | null; email: string | null; address: string | null }>): Promise<Customer> => {
+    const { data } = await api.patch(`/inventory/customers/${id}`, payload)
+    return data
+  },
+  deleteCustomer: async (id: string): Promise<void> => {
+    await api.delete(`/inventory/customers/${id}`)
+  },
+  getSuppliers: async (): Promise<Supplier[]> => {
+    const { data } = await api.get('/inventory/suppliers')
+    return data
+  },
+  createSupplier: async (payload: { name: string; phone?: string; email?: string; address?: string }): Promise<Supplier> => {
+    const { data } = await api.post('/inventory/suppliers', payload)
+    return data
+  },
+  updateSupplier: async (id: string, payload: Partial<{ name: string; phone: string | null; email: string | null; address: string | null }>): Promise<Supplier> => {
+    const { data } = await api.patch(`/inventory/suppliers/${id}`, payload)
+    return data
+  },
+  deleteSupplier: async (id: string): Promise<void> => {
+    await api.delete(`/inventory/suppliers/${id}`)
   },
 }
 

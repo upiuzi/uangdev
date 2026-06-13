@@ -1,4 +1,4 @@
-name: securo
+name: uang
 
 # podman-compose groups all services into a single pod by default, which
 # interferes with per-service port mapping and networking. Disabling it makes
@@ -8,7 +8,7 @@ x-podman:
   in_pod: false
 
 x-backend-env: &backend-env
-  DATABASE_URL: postgresql+asyncpg://postgres:postgres@db:5432/securo
+  DATABASE_URL: postgresql+asyncpg://postgres:postgres@db:5432/uang
   SECRET_KEY: ${SECRET_KEY:-dev-secret-change-in-production}
   DEBUG: ${DEBUG:-true}
   FRONTEND_URL: http://localhost:${FRONTEND_PORT:-3000}
@@ -96,7 +96,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: securo
+      POSTGRES_DB: uang
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
@@ -140,7 +140,7 @@ services:
     <<: *backend-base
     command: celery -A app.worker beat --loglevel=info
 
-  # Optional: Securo built-in MCP server. Only starts under the `agents`
+  # Optional: uang built-in MCP server. Only starts under the `agents`
   # profile (`docker compose --profile agents up`). Reuses the backend
   # image, just runs a different uvicorn entry point. Modular by design —
   # users not using the agents feature pay zero cost.

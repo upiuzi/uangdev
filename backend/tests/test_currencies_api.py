@@ -46,3 +46,15 @@ async def test_currencies_include_dop_with_metadata(client: AsyncClient):
     assert dop["symbol"] == "RD$"
     assert dop["name"] == "Peso Dominicano"
     assert dop["flag"] == "🇩🇴"
+
+
+@pytest.mark.asyncio
+async def test_currencies_include_idr_with_metadata(client: AsyncClient):
+    response = await client.get("/api/currencies")
+    data = response.json()
+    idr = next((currency for currency in data if currency["code"] == "IDR"), None)
+
+    assert idr is not None
+    assert idr["symbol"] == "Rp"
+    assert idr["name"] == "Indonesian Rupiah"
+    assert idr["flag"] == "🇮🇩"

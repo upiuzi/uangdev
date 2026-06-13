@@ -38,6 +38,11 @@ from app.models.transaction import Transaction
 from app.models.transaction_attachment import TransactionAttachment
 from app.models.transaction_split import TransactionSplit
 from app.models.workspace import Workspace, WorkspaceMember
+from app.models.inventory_item import InventoryItem
+from app.models.inventory_transaction import InventoryTransaction
+from app.models.inventory_payment import InventoryPayment
+from app.models.customer import Customer
+from app.models.supplier import Supplier
 
 
 _AUTOSTAMP_MODELS = (
@@ -62,6 +67,11 @@ _AUTOSTAMP_MODELS = (
     Transaction,
     TransactionAttachment,
     TransactionSplit,
+    InventoryItem,
+    InventoryTransaction,
+    InventoryPayment,
+    Customer,
+    Supplier,
 )
 
 
@@ -108,6 +118,7 @@ _PARENT_LOOKUPS: tuple[tuple[str, str], ...] = (
     ("group_id", "app.models.group:Group"),
     ("transaction_id", "app.models.transaction:Transaction"),
     ("agent_id", "app.agents.models.agent:Agent"),
+    ("inventory_transaction_id", "app.models.inventory_transaction:InventoryTransaction"),
 )
 
 
